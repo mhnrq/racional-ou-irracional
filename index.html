@@ -124,7 +124,6 @@
       background-color: #2a5a53;
     }
 
-    /* Ajustes para telas menores */
     @media (max-width: 600px) {
       .container {
         padding: 1.5rem;
@@ -160,36 +159,37 @@
 
   <script>
     const numeros = [
+      // Números racionais
       { valor: "1", tipo: "racional" },
       { valor: "2", tipo: "racional" },
       { valor: "3", tipo: "racional" },
       { valor: "4", tipo: "racional" },
       { valor: "5", tipo: "racional" },
-      { valor: "-1", tipo: "racional" },
-      { valor: "-2", tipo: "racional" },
-      { valor: "0.5", tipo: "racional" },
-      { valor: "-3.75", tipo: "racional" },
-      { valor: "1.333...", tipo: "racional" },
-      { valor: "0.666...", tipo: "racional" },
-      { valor: "2.818...", tipo: "irracional" },
+      { valor: "7", tipo: "racional" },
+      { valor: "8", tipo: "racional" },
+      { valor: "9", tipo: "racional" },
+      { valor: "10", tipo: "racional" },
+      { valor: "12", tipo: "racional" },
+      { valor: "0,12", tipo: "racional" },
+      { valor: "2,13", tipo: "racional" },
+      { valor: "1,45", tipo: "racional" },
+      { valor: "4,32", tipo: "racional" },
+      { valor: "8,53", tipo: "racional" },
+      { valor: "6,98", tipo: "racional" },
+      { valor: "5,78", tipo: "racional" },
+      { valor: "9,14", tipo: "racional" },
+      { valor: "2,34", tipo: "racional" },
+      { valor: "12,45", tipo: "racional" },
+      { valor: "0,333...", tipo: "racional" },
+      { valor: "1,111...", tipo: "racional" },
+      { valor: "8,333...", tipo: "racional" },
+      
+      // Números irracionais (substituindo 5 dízimas)
       { valor: "√2", tipo: "irracional" },
       { valor: "√3", tipo: "irracional" },
       { valor: "√5", tipo: "irracional" },
-      { valor: "-√7", tipo: "irracional" },
-      { valor: "π", tipo: "irracional" },
-      { valor: "e", tipo: "irracional" },
-      { valor: "3.141", tipo: "racional" },
-      { valor: "-6.28", tipo: "racional" },
-      { valor: "10", tipo: "racional" },
-      { valor: "12.5", tipo: "racional" },
-      { valor: "-8", tipo: "racional" },
-      { valor: "7", tipo: "racional" },
-      { valor: "0", tipo: "racional" },
-      { valor: "0.25", tipo: "racional" },
-      { valor: "2.5", tipo: "racional" },
-      { valor: "6.666...", tipo: "racional" },
-      { valor: "-4.444...", tipo: "racional" },
-      { valor: "9.999...", tipo: "racional" },
+      { valor: "√7", tipo: "irracional" },
+      { valor: "π", tipo: "irracional" }
     ];
 
     let numerosEmbaralhados = [];
@@ -214,16 +214,13 @@
     function selecionarCarta(card) {
       if (card.classList.contains("correct")) return;
       
-      // Remove a seleção de todas as cartas
       document.querySelectorAll(".card").forEach(c => {
         c.classList.remove("selected");
       });
       
-      // Seleciona a carta clicada
       card.classList.add("selected");
       cartaSelecionada = card;
       
-      // Efeito visual de clique
       card.style.transform = "translateY(-5px) scale(0.95)";
       setTimeout(() => {
         card.style.transform = "translateY(-5px) scale(1)";
@@ -251,7 +248,6 @@
         }, 500);
       }
       
-      // Limpa a seleção independente de acerto ou erro
       cartaSelecionada = null;
     }
 

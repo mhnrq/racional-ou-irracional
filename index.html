@@ -28,30 +28,55 @@
       text-align: center;
       width: 100%;
       max-width: 800px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     h1 {
       margin-bottom: 1.5rem;
+      color: #2a5a53;
+      font-size: clamp(1.5rem, 3vw, 2rem);
     }
 
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 12px;
       justify-items: center;
       margin-bottom: 1.5rem;
     }
 
     .card {
       background-color: white;
-      padding: 10px;
+      padding: 15px 10px;
       border-radius: 10px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
       cursor: pointer;
-      min-width: 80px;
+      width: 90px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       font-weight: bold;
-      transition: background-color 0.3s;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card.selected {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border: 3px solid #5c9d94;
+    }
+
+    .card.selected::after {
+      content: "✓";
+      position: absolute;
+      top: 2px;
+      right: 5px;
+      color: #5c9d94;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     .card.correct {
@@ -74,6 +99,7 @@
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
 
     .buttons button {
@@ -84,30 +110,47 @@
       border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: all 0.3s;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      min-width: 120px;
     }
 
     .buttons button:hover {
       background-color: #41756d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     #reiniciar {
-      margin-top: 1.5rem;
-      width: calc(2 * 1.5rem + 2 * 100px + 1rem);
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 300px;
+      background-color: #3a7a72;
     }
 
-    @media (max-width: 500px) {
+    #reiniciar:hover {
+      background-color: #2a5a53;
+    }
+
+    /* Ajustes para telas menores */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
+      
       .card {
-        min-width: 60px;
+        width: 80px;
+        height: 55px;
         font-size: 14px;
+        padding: 12px 8px;
       }
-
+      
       .buttons button {
-        width: 100px;
-      }
-
-      #reiniciar {
-        width: 100%;
+        padding: 0.7rem 1.2rem;
       }
     }
   </style>
@@ -163,7 +206,7 @@
     function iniciarJogo() {
       const grid = document.getElementById("grid");
       grid.innerHTML = "";
-      numerosEmbaralhados = numeros.sort(() => Math.random() - 0.5);
+      numerosEmbaralhados = [...numeros].sort(() => Math.random() - 0.5);
       numerosEmbaralhados.forEach((num, index) => {
         const card = document.createElement("div");
         card.className = "card";
@@ -178,20 +221,39 @@
 
     function selecionarCarta(card) {
       if (card.classList.contains("correct")) return;
-      document.querySelectorAll(".card").forEach(c => c.classList.remove("selected"));
-      cartaSelecionada = card;
+      
+      // Remove a seleção de todas as cartas
+      document.querySelectorAll(".card").forEach(c => {
+        c.classList.remove("selected");
+      });
+      
+      // Seleciona a carta clicada
       card.classList.add("selected");
+      cartaSelecionada = card;
+      
+      // Adiciona um efeito visual de clique
+      card.style.transform = "translateY(-5px) scale(0.95)";
+      setTimeout(() => {
+        card.style.transform = "translateY(-5px) scale(1)";
+      }, 100);
     }
 
     function classificar(tipo) {
-      if (!cartaSelecionada) return;
+      if (!cartaSelecionada) {
+        alert("Por favor, selecione uma carta primeiro!");
+        return;
+      }
+      
       if (cartaSelecionada.dataset.tipo === tipo) {
         cartaSelecionada.classList.add("correct");
         cartaSelecionada.classList.remove("selected");
+        cartaSelecionada.style.transform = "none";
       } else {
         cartaSelecionada.classList.add("incorrect");
         setTimeout(() => {
           cartaSelecionada.classList.remove("incorrect");
+          cartaSelecionada.classList.remove("selected");
+          cartaSelecionada.style.transform = "none";
         }, 500);
       }
       cartaSelecionada = null;

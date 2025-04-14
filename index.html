@@ -4,102 +4,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Racional ou Irracional?</title>
   <style>
-    :root {
-      --cor-fundo: #d0fdf7;
-      --cor-cartao: #ffffff;
-      --cor-botao: #6aa79f;
-      --cor-texto-botao: #ffffff;
-      --cor-texto: #333;
-    }* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--cor-fundo);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }body {
   font-family: 'Arial Rounded MT Bold', sans-serif;
+  background-color: #ccf8f2;
+  color: #444;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 2vh 2vw;
 }
 
 .container {
-  max-width: 1000px;
+  background-color: #b4eee6;
+  border-radius: 2vw;
+  padding: 3vh 3vw;
   width: 100%;
-  background-color: #b2e9e2;
-  padding: 1.5rem;
-  border-radius: 2rem;
+  max-width: 960px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
 }
 
 h1 {
-  font-size: 2rem;
-  color: var(--cor-texto);
+  font-size: 5vw;
   text-align: center;
+  margin-bottom: 3vh;
 }
 
-.cards {
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 2vw;
+  margin-bottom: 4vh;
   width: 100%;
 }
 
 .card {
-  background-color: var(--cor-cartao);
-  border-radius: 1rem;
-  padding: 1.2rem;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
+  background-color: white;
+  border-radius: 1vw;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.botoes {
+.buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
   justify-content: center;
-  width: 100%;
+  gap: 2vw;
+  margin-top: 2vh;
 }
 
 button {
-  flex: 1 1 120px;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--cor-texto-botao);
-  background-color: var(--cor-botao);
+  padding: 1rem 2rem;
   border: none;
-  border-radius: 2rem;
+  border-radius: 2vw;
+  background-color: #689f94;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  min-width: 140px;
 }
 
 button:hover {
-  background-color: #588f89;
+  background-color: #557f77;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 768px) {
   h1 {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
   }
 
   .card {
-    font-size: 1rem;
-    padding: 1rem;
+    height: 80px;
+    font-size: 2rem;
   }
 
   button {
-    padding: 0.8rem;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
+    min-width: 180px;
   }
 }
 
@@ -107,67 +100,27 @@ button:hover {
 </head>
 <body>
   <div class="container">
-    <h1>RACIONAL OU IRRACIONAL?</h1>
-    <div class="cards" id="cards"></div>
-    <div class="botoes">
-      <button onclick="classificar('racional')">RACIONAL</button>
-      <button onclick="classificar('irracional')">IRRACIONAL</button>
-      <button onclick="reiniciar()">REINICIAR</button>
+    <h1>Racional ou Irracional?</h1>
+    <div class="grid">
+      <!-- Espaço para até 30 cartas -->
+      <!-- Exemplo de cartas -->
+      <div class="card">1</div>
+      <div class="card">2</div>
+      <div class="card">3</div>
+      <div class="card">4</div>
+      <div class="card">5</div>
+      <div class="card">√2</div>
+      <div class="card">π</div>
+      <div class="card">0.5</div>
+      <div class="card">-3</div>
+      <div class="card">-√5</div>
+      <!-- Adicione até 30 cartas -->
     </div>
-  </div>  <script>
-    const numeros = [
-      '1/2', '0.75', '√2', '3', 'π', '1.4142135', '5/7', '7.777...', '-3', '√5',
-      '2.5', '1.333...', '√3', '0', '22/7', '-0.25', 'e', '1.618...', '4/3', '1.732',
-      '6', '√10', '9.1', '√11', '7.5'
-    ];
-
-    let selecionado = null;
-
-    function embaralhar(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    function carregarCartas() {
-      const embaralhados = embaralhar([...numeros]);
-      const container = document.getElementById('cards');
-      container.innerHTML = '';
-      embaralhados.forEach(num => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.textContent = num;
-        card.onclick = () => selecionar(card);
-        container.appendChild(card);
-      });
-    }
-
-    function selecionar(card) {
-      if (selecionado) {
-        selecionado.style.backgroundColor = 'var(--cor-cartao)';
-      }
-      selecionado = card;
-      selecionado.style.backgroundColor = '#e0f7f4';
-    }
-
-    function classificar(tipo) {
-      if (!selecionado) return;
-      const valor = selecionado.textContent;
-      const irracionais = ['√2', 'π', '1.4142135', '√5', '√3', 'e', '1.618...', '1.732', '√10', '√11'];
-      const acertou = tipo === 'irracional' ? irracionais.includes(valor) : !irracionais.includes(valor);
-
-      selecionado.style.backgroundColor = acertou ? '#a1f0a1' : '#f0a1a1';
-      selecionado.onclick = null;
-      selecionado = null;
-    }
-
-    function reiniciar() {
-      selecionado = null;
-      carregarCartas();
-    }
-
-    carregarCartas();
-  </script></body>
+    <div class="buttons">
+      <button>RACIONAL</button>
+      <button>IRRACIONAL</button>
+      <button>REINICIAR</button>
+    </div>
+  </div>
+</body>
 </html>
